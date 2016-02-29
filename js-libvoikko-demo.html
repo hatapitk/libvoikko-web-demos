@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<charset name="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<style type="text/css">
+.voikkoCommand {
+	color: red;
+}
+.voikkoResult {
+	color: blue;
+	padding-left: 2em;
+}
+</style>
+</head>
+<body class="container-fluid">
+<div class="jumbotron">
+<h1>JS-libvoikko interactive demo</h1>
+<p>JS-libvoikko is a pure JavaScript port of libvoikko. It runs in latest major web browsers without any native components or server
+side scripting. The port is still in progress; you can try the code samples below and edit them to see what is possible.</p>
+</div>
+<div id="placeholder" class="alert alert-info" role="alert">Loading the Finnish dictionary...</div>
+
+<div id="theForm" class="container-fluid" style="display: none">
+  <div class="container">
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        Select sample code
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li><a href="#" onclick="demoSpell()">Spell checking - spell()</a></li>
+        <li><a href="#" onclick="demoSuggest()">Spelling correction - suggest()</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="#" onclick="demoAnalyze()">Morphological anlysis - analyze()</a></li>
+      </ul>
+    </div>
+
+    <textarea id="theScript"></textarea>
+  </div>
+   <div class="container">
+     <p>Here you can see the output from the script</p>
+     <pre id="outputArea"></pre>
+   </div>
+  </div>
+
+</div>
+
+<div class="container-fluid">
+<h2>Legal notices</h2>
+<p>When JS-libvoikko is used in a web browser it is necessary to load compiled version of libvoikko, possible dependent libraries and required dictionaries
+to the browser. Since these files are really transferred to the browser (not just run on the server as it has often been the case when libvoikko has been
+used in the web context) the distribution terms of the relevant software licenses need to be followed. This demonstration uses libvoikko and voikko-fi
+from corevoikko revision XXXX and is made available under the terms of GNU General Public License, version 3 or later.</p>
+</div>
+
+<script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script type="text/javascript" src="libvoikko.js"></script>
+<script>
+
+function setScript(script) {
+	$("#theScript").text(script);
+}
+
+function runScript() {
+	var script = $("#theScript").text();
+	var commands = script.split("\n");
+	var output = $("#outputArea");
+	output.empty();
+	for (var i = 0; i < commands.length; i++) {
+		var command = commands[i];
+		var commandDiv = $("<div/>");
+		commandDiv.addClass("voikkoCommand");
+		commandDiv.text(command);
+		output.append(commandDiv);
+		var result = eval(command);
+		if (typeof(result) == "object") {
+			result = JSON.stringify(result, null, 2);
+		}
+		var resultDiv = $("<div/>");
+		resultDiv.addClass("voikkoResult");
+		resultDiv.text(result);
+		output.append(resultDiv);
+	}
+}
+
+function demoSpell() {
+	setScript('v.spell("kissa");\nv.spell("hevvonen");');
+	runScript();
+}
+
+function demoSuggest() {
+	setScript('v.suggest("hevvonen");');
+	runScript();
+}
+
+function demoAnalyze() {
+	setScript('v.analyze("tulen");');
+	runScript();
+}
+
+var libvoikko = Libvoikko({
+	_main : function() {
+		$("#placeholder").hide();
+		$("#theForm").show();
+		v = libvoikko.init("fi");
+		console.log(v.spell("kissa"));
+		console.log(v.spell("koirra"));
+		console.log(v.suggest("koirra"));
+		console.log(v.analyze("tulen"));
+	}
+});
+</script>
+</body>
+</html>
