@@ -22,37 +22,58 @@ side scripting. The port is still in progress; you can try the code samples belo
 </div>
 <div id="placeholder" class="alert alert-info" role="alert">Loading the Finnish dictionary...</div>
 
-<div id="theForm" class="container-fluid" style="display: none">
-  <div class="container">
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        Select sample code
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#" onclick="demoSpell()">Spell checking - spell()</a></li>
-        <li><a href="#" onclick="demoSuggest()">Spelling correction - suggest()</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#" onclick="demoAnalyze()">Morphological anlysis - analyze()</a></li>
-      </ul>
-    </div>
+<div id="theForm" class="container hidden">
 
-    <textarea id="theScript"></textarea>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Script to run</h2>
+      <span class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Select sample code
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#" onclick="demoSpell()">Spell checking - spell()</a></li>
+          <li><a href="#" onclick="demoSuggest()">Spelling correction - suggest()</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#" onclick="demoAnalyze()">Morphological anlysis - analyze()</a></li>
+        </ul>
+      </span> (you can edit it afterwards)
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+      <h2>Output from the script</h2>
+    </div>
   </div>
-   <div class="container">
-     <p>Here you can see the output from the script</p>
-     <pre id="outputArea"></pre>
-   </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <pre>var v = libvoikko.init("fi");</pre>
+      <pre id="theScript"></pre>
+    </div>
+  
+    <div class="col-md-2">
+      <button type="button" class="btn btn-default btn-lg" onclick="runScript()">
+        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Run the script
+      </button>
+    </div>
+  
+    <div class="col-md-6">
+      <pre id="outputArea"></pre>
+    </div>
   </div>
+
 
 </div>
 
 <div class="container-fluid">
 <h2>Legal notices</h2>
+<p>This demonstration page is written by Harri Pitkänen (hatapitk@iki.fi). It is made available under the terms of GNU General Public License, version 3 or later.</p>
 <p>When JS-libvoikko is used in a web browser it is necessary to load compiled version of libvoikko, possible dependent libraries and required dictionaries
 to the browser. Since these files are really transferred to the browser (not just run on the server as it has often been the case when libvoikko has been
 used in the web context) the distribution terms of the relevant software licenses need to be followed. This demonstration uses libvoikko and voikko-fi
-from corevoikko revision XXXX and is made available under the terms of GNU General Public License, version 3 or later.</p>
+from <a href="https://github.com/voikko/corevoikko/tree/fa11174e706b5b5ba60ad89b506fed1fad135cb9">corevoikko revision fa11174e706b5b5ba60ad89b506fed1fad135cb9</a>. Additionally <a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">Emscripten 1.35.0</a>, <a href="http://code.jquery.com/jquery-2.2.1.js">jQuery 2.2.1</a> and <a href="http://getbootstrap.com/getting-started/">Bootstrap 3.3.6</a> are used. Source code to all of these
+components is available at the linked web sites.</p>
 </div>
 
 <script src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
@@ -66,7 +87,7 @@ function setScript(script) {
 
 function runScript() {
 	var script = $("#theScript").text();
-	var commands = script.split("\n");
+	var commands = script.split(";");
 	var output = $("#outputArea");
 	output.empty();
 	for (var i = 0; i < commands.length; i++) {
@@ -103,13 +124,11 @@ function demoAnalyze() {
 
 var libvoikko = Libvoikko({
 	_main : function() {
-		$("#placeholder").hide();
-		$("#theForm").show();
+		$("#theScript").prop("contentEditable", true);
+		$("#placeholder").addClass("hidden");
+		$("#theForm").removeClass("hidden");
 		v = libvoikko.init("fi");
-		console.log(v.spell("kissa"));
-		console.log(v.spell("koirra"));
-		console.log(v.suggest("koirra"));
-		console.log(v.analyze("tulen"));
+		demoSpell();
 	}
 });
 </script>
