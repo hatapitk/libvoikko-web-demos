@@ -17,12 +17,14 @@
 <body class="container-fluid">
 <div class="jumbotron">
 <h1>JS-libvoikko interactive demo</h1>
-<p>JS-libvoikko is a pure JavaScript port of libvoikko. It runs in latest major web browsers without any native components or server
-side scripting. The port is still in progress; you can try the code samples below and edit them to see what is possible.</p>
+<p>JS-libvoikko is a pure JavaScript port of libvoikko. It runs in latest versions of all major web browsers without plugins or server
+side scripting. You can try the code samples below and edit them to see some of the possibilities.</p>
+<p>See the <a href="http://www.puimula.org/htp/testing/voikko-sdk/java/javadoc/org/puimula/libvoikko/Voikko.html">API documentation</a> for more info.
+Our JavaScript API follows the Java API as closely as reasonably possible but some differences remain.</p>
 </div>
 <div id="placeholder" class="alert alert-info" role="alert">Loading the Finnish dictionary...</div>
 
-<div id="theForm" class="container hidden">
+<div id="theForm" class="container-fluid hidden">
 
   <div class="row">
     <div class="col-md-4">
@@ -35,8 +37,14 @@ side scripting. The port is still in progress; you can try the code samples belo
         <ul class="dropdown-menu" id="sampleMenu" aria-labelledby="dropdownMenu1">
           <li><a href="#" data-code='v.spell("kissa");|v.spell("hevvonen");'>Spell checking - spell()</a></li>
           <li><a href="#" data-code='v.suggest("hevvonen");'>Spelling correction - suggest()</a></li>
+          <li><a href="#" data-code='v.grammarErrors("Ullakolla on hiiri joka juoksee karkuun.", "fi");'>Grammar checking - grammarErrors()</a></li>
           <li role="separator" class="divider"></li>
           <li><a href="#" data-code='v.analyze("tulen");'>Morphological anlysis - analyze()</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#" data-code='v.hyphenate("yhteisomistus");'>Hyphenation - hyphenate()</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#" data-code='v.tokens("Kissa vai hevonen?");'>String tokenization - tokens()</a></li>
+          <li><a href="#" data-code='v.sentences("Kissa vai ei? Vaikea sanoa.");'>Sentence splitting - sentences()</a></li>
         </ul>
       </span> (you can edit it afterwards)
       
@@ -62,7 +70,7 @@ side scripting. The port is still in progress; you can try the code samples belo
 <p>When JS-libvoikko is used in a web browser it is necessary to load compiled version of libvoikko, possible dependent libraries and required dictionaries
 to the browser. Since these files are really transferred to the browser (not just run on the server as it has often been the case when libvoikko has been
 used in the web context) the distribution terms of the relevant software licenses need to be followed. This demonstration uses libvoikko and voikko-fi
-from <a href="https://github.com/voikko/corevoikko/tree/fa11174e706b5b5ba60ad89b506fed1fad135cb9">corevoikko revision fa11174e706b5b5ba60ad89b506fed1fad135cb9</a>. Additionally <a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">Emscripten 1.35.0</a>, <a href="http://code.jquery.com/jquery-2.2.1.js">jQuery 2.2.1</a> and <a href="http://getbootstrap.com/getting-started/">Bootstrap 3.3.6</a> are used. Source code to all of these
+from <a href="https://github.com/voikko/corevoikko/tree/905e71fc3d94923df3a4b15a5be8834fe0045ddf">corevoikko revision 905e71fc3d94923df3a4b15a5be8834fe0045ddf</a>. Additionally <a href="http://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">Emscripten 1.35.0</a>, <a href="http://code.jquery.com/jquery-2.2.1.js">jQuery 2.2.1</a> and <a href="http://getbootstrap.com/getting-started/">Bootstrap 3.3.6</a> are used. Source code to all of these
 components is available at the linked web sites.</p>
 </div>
 
