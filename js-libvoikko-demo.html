@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<charset name="UTF-8" />
+<title>JS-libvoikko interactive demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <style type="text/css">
@@ -32,37 +32,27 @@ side scripting. The port is still in progress; you can try the code samples belo
           Select sample code
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="#" onclick="demoSpell()">Spell checking - spell()</a></li>
-          <li><a href="#" onclick="demoSuggest()">Spelling correction - suggest()</a></li>
+        <ul class="dropdown-menu" id="sampleMenu" aria-labelledby="dropdownMenu1">
+          <li><a href="#" data-code='v.spell("kissa");|v.spell("hevvonen");'>Spell checking - spell()</a></li>
+          <li><a href="#" data-code='v.suggest("hevvonen");'>Spelling correction - suggest()</a></li>
           <li role="separator" class="divider"></li>
-          <li><a href="#" onclick="demoAnalyze()">Morphological anlysis - analyze()</a></li>
+          <li><a href="#" data-code='v.analyze("tulen");'>Morphological anlysis - analyze()</a></li>
         </ul>
       </span> (you can edit it afterwards)
-    </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-6">
-      <h2>Output from the script</h2>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
+      
       <pre>var v = libvoikko.init("fi");</pre>
       <pre id="theScript"></pre>
     </div>
-  
     <div class="col-md-2">
       <button type="button" class="btn btn-default btn-lg" onclick="runScript()">
         <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Run the script
       </button>
     </div>
-  
     <div class="col-md-6">
+      <h2>Output from the script</h2>
       <pre id="outputArea"></pre>
     </div>
   </div>
-
 
 </div>
 
@@ -107,28 +97,18 @@ function runScript() {
 	}
 }
 
-function demoSpell() {
-	setScript('v.spell("kissa");\nv.spell("hevvonen");');
-	runScript();
-}
-
-function demoSuggest() {
-	setScript('v.suggest("hevvonen");');
-	runScript();
-}
-
-function demoAnalyze() {
-	setScript('v.analyze("tulen");');
-	runScript();
-}
-
 var libvoikko = Libvoikko({
-	_main : function() {
+	onLoad : function() {
+		$("#sampleMenu a").click(function() {
+			var script = $(this).attr("data-code").replace("|", "\n");
+			setScript(script);
+			runScript();
+		});
 		$("#theScript").prop("contentEditable", true);
 		$("#placeholder").addClass("hidden");
 		$("#theForm").removeClass("hidden");
 		v = libvoikko.init("fi");
-		demoSpell();
+		$("#sampleMenu a").first().trigger("click");
 	}
 });
 </script>
