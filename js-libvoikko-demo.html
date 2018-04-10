@@ -3,7 +3,8 @@
 <head>
 <title>JS-libvoikko interactive demo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <style type="text/css">
 .voikkoCommand {
 	color: red;
@@ -15,50 +16,55 @@
 </style>
 </head>
 <body class="container-fluid">
-<div class="jumbotron">
+<div class="jumbotron mt-3">
 <h1>JS-libvoikko interactive demo</h1>
 <p>JS-libvoikko is a pure JavaScript port of libvoikko. It runs in latest versions of all major web browsers without plugins or server
 side scripting. You can try the code samples below and edit them to see some of the possibilities.</p>
 <p>See the <a href="https://www.puimula.org/htp/testing/voikko-sdk/java/javadoc/org/puimula/libvoikko/Voikko.html">API documentation</a> for more info.
 Our JavaScript API follows the Java API as closely as reasonably possible but some differences remain.</p>
 </div>
-<div id="placeholder" class="alert alert-info" role="alert">Loading the Finnish dictionary...</div>
+<div id="placeholder" class="alert alert-info" role="alert">
+  Loading the Finnish dictionary...
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+  </div>
+</div>
 
 <div id="theForm" class="container-fluid hidden">
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-lg-4">
       <h2>Script to run</h2>
       <span class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Select sample code
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" id="sampleMenu" aria-labelledby="dropdownMenu1">
-          <li><a href="#" data-code='v.spell("kissa");|v.spell("hevvonen");'>Spell checking - spell()</a></li>
-          <li><a href="#" data-code='v.suggest("hevvonen");'>Spelling correction - suggest()</a></li>
-          <li><a href="#" data-code='v.grammarErrors("Ullakolla on hiiri joka juoksee karkuun.", "fi");'>Grammar checking - grammarErrors()</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#" data-code='v.analyze("tulen");'>Morphological anlysis - analyze()</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#" data-code='v.hyphenate("yhteisomistus");'>Hyphenation - hyphenate()</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#" data-code='v.tokens("Kissa vai hevonen?");'>String tokenization - tokens()</a></li>
-          <li><a href="#" data-code='v.sentences("Kissa vai ei? Vaikea sanoa.");'>Sentence splitting - sentences()</a></li>
-        </ul>
+        <div class="dropdown-menu" id="sampleMenu" aria-labelledby="dropdownMenu1">
+          <a class="dropdown-item" href="#" data-code='v.spell("kissa");|v.spell("hevvonen");'>Spell checking - spell()</a>
+          <a class="dropdown-item" href="#" data-code='v.suggest("hevvonen");'>Spelling correction - suggest()</a>
+          <a class="dropdown-item" href="#" data-code='v.grammarErrors("Ullakolla on hiiri joka juoksee karkuun.", "fi");'>Grammar checking - grammarErrors()</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" data-code='v.analyze("tulen");'>Morphological anlysis - analyze()</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" data-code='v.hyphenate("yhteisomistus", "-");'>Hyphenation - hyphenate()</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#" data-code='v.tokens("Kissa vai hevonen?");'>String tokenization - tokens()</a>
+          <a class="dropdown-item" href="#" data-code='v.sentences("Kissa vai ei? Vaikea sanoa.");'>Sentence splitting - sentences()</a>
+        </div>
       </span> (you can edit it afterwards)
       
-      <pre>var v = libvoikko.init("fi");</pre>
-      <pre id="theScript"></pre>
+      <pre class="border rounded bg-light p-2 mt-3">var v = libvoikko.init("fi");</pre>
+      <pre class="border rounded bg-light p-2" id="theScript"></pre>
     </div>
-    <div class="col-md-2">
-      <button type="button" class="btn btn-default btn-lg" onclick="runScript()">
-        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Run the script
+    <div class="col-lg-2">
+      <button type="button" class="btn btn-primary btn-lg mb-2" onclick="runScript()">
+        <span class="fa fa-play" aria-hidden="true"></span> Run the script
       </button>
     </div>
-    <div class="col-md-6">
+    <div class="col-lg-6">
       <h2>Output from the script</h2>
-      <pre id="outputArea"></pre>
+      <pre class="border rounded bg-light p-2" id="outputArea"></pre>
     </div>
   </div>
 
@@ -70,13 +76,13 @@ Our JavaScript API follows the Java API as closely as reasonably possible but so
 <p>When JS-libvoikko is used in a web browser it is necessary to load compiled version of libvoikko, possible dependent libraries and required dictionaries
 to the browser. Since these files are really transferred to the browser (not just run on the server as it has often been the case when libvoikko has been
 used in the web context) the distribution terms of the relevant software licenses need to be followed. This demonstration uses libvoikko and voikko-fi
-from <a href="https://github.com/voikko/corevoikko/tree/905e71fc3d94923df3a4b15a5be8834fe0045ddf">corevoikko revision 905e71fc3d94923df3a4b15a5be8834fe0045ddf</a>. Additionally <a href="https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">Emscripten 1.35.0</a>, <a href="https://code.jquery.com/jquery-2.2.1.js">jQuery 2.2.1</a> and <a href="https://getbootstrap.com/getting-started/">Bootstrap 3.3.6</a> are used. Source code to all of these
+from <a href="https://github.com/voikko/corevoikko/tree/905e71fc3d94923df3a4b15a5be8834fe0045ddf">corevoikko revision 905e71fc3d94923df3a4b15a5be8834fe0045ddf</a>. Additionally <a href="https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">Emscripten 1.35.0</a>, <a href="https://code.jquery.com/jquery-3.3.1.slim.js">jQuery 3.3.1</a> and <a href="https://getbootstrap.com/docs/4.1/getting-started/introduction/">Bootstrap 4.1</a> are used. Source code to all of these
 components is available at the linked web sites.</p>
 </div>
 
-<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script type="text/javascript" src="libvoikko.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script><script type="text/javascript" src="libvoikko.js"></script>
 <script>
 
 function setScript(script) {
@@ -113,7 +119,7 @@ var libvoikko = Libvoikko({
 			runScript();
 		});
 		$("#theScript").prop("contentEditable", true);
-		$("#placeholder").addClass("hidden");
+		$("#placeholder").remove();
 		$("#theForm").removeClass("hidden");
 		v = libvoikko.init("fi");
 		$("#sampleMenu a").first().trigger("click");
