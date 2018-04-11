@@ -16,12 +16,12 @@
 </style>
 </head>
 <body class="container-fluid">
-<div class="jumbotron mt-3">
+<div class="jumbotron p-4 mt-3">
 <h1>JS-libvoikko interactive demo</h1>
 <p>JS-libvoikko is a pure JavaScript port of libvoikko. It runs in latest versions of all major web browsers without plugins or server
 side scripting. You can try the code samples below and edit them to see some of the possibilities.</p>
 <p>See the <a href="https://www.puimula.org/htp/testing/voikko-sdk/java/javadoc/org/puimula/libvoikko/Voikko.html">API documentation</a> for more info.
-Our JavaScript API follows the Java API as closely as reasonably possible but some differences remain.</p>
+Our JavaScript API follows the Java API as closely as reasonably possible but some differences remain. <a href="#" onclick="showHelp()">Need help on using this demo?</a></p>
 </div>
 <div id="placeholder" class="alert alert-info" role="alert">
   Loading the Finnish dictionary...
@@ -36,29 +36,31 @@ Our JavaScript API follows the Java API as closely as reasonably possible but so
     <div class="col-lg-4">
       <h2>Script to run</h2>
       <span class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Select sample code
-          <span class="caret"></span>
-        </button>
-        <div class="dropdown-menu" id="sampleMenu" aria-labelledby="dropdownMenu1">
-          <a class="dropdown-item" href="#" data-code='v.spell("kissa");|v.spell("hevvonen");'>Spell checking - spell()</a>
-          <a class="dropdown-item" href="#" data-code='v.suggest("hevvonen");'>Spelling correction - suggest()</a>
-          <a class="dropdown-item" href="#" data-code='v.grammarErrors("Ullakolla on hiiri joka juoksee karkuun.", "fi");'>Grammar checking - grammarErrors()</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-code='v.analyze("tulen");'>Morphological anlysis - analyze()</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-code='v.hyphenate("yhteisomistus", "-");'>Hyphenation - hyphenate()</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-code='v.tokens("Kissa vai hevonen?");'>String tokenization - tokens()</a>
-          <a class="dropdown-item" href="#" data-code='v.sentences("Kissa vai ei? Vaikea sanoa.");'>Sentence splitting - sentences()</a>
+        <div class="d-inline-block" title="1: Select the functionality you want to test." data-placement="auto">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Select sample code
+            <span class="caret"></span>
+          </button>
+          <div class="dropdown-menu" id="sampleMenu" aria-labelledby="dropdownMenu1">
+            <a class="dropdown-item" href="#" data-code='v.spell("kissa");|v.spell("hevvonen");'>Spell checking - spell()</a>
+            <a class="dropdown-item" href="#" data-code='v.suggest("hevvonen");'>Spelling correction - suggest()</a>
+            <a class="dropdown-item" href="#" data-code='v.grammarErrors("Ullakolla on hiiri joka juoksee karkuun.", "fi");'>Grammar checking - grammarErrors()</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-code='v.analyze("tulen");'>Morphological anlysis - analyze()</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-code='v.hyphenate("yhteisomistus", "-");'>Hyphenation - hyphenate()</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-code='v.tokens("Kissa vai hevonen?");'>String tokenization - tokens()</a>
+            <a class="dropdown-item" href="#" data-code='v.sentences("Kissa vai ei? Vaikea sanoa.");'>Sentence splitting - sentences()</a>
+          </div>
         </div>
       </span> (you can edit it afterwards)
       
-      <pre class="border rounded bg-light p-2 mt-3">var v = libvoikko.init("fi");</pre>
-      <pre class="border rounded bg-light p-2" id="theScript"></pre>
+      <pre class="p-2 mt-3">var v = libvoikko.init("fi");</pre>
+      <pre class="border rounded bg-light p-2" id="theScript" title="2: Edit the sample code. For example, you can try your own input words." data-placement="auto"></pre>
     </div>
     <div class="col-lg-2">
-      <button type="button" class="btn btn-primary btn-lg mb-2" onclick="runScript()">
+      <button type="button" class="btn btn-primary btn-lg mb-2" onclick="runScript()" title="3: Click this button to run your modified code." data-placement="auto">
         <span class="fa fa-play" aria-hidden="true"></span> Run the script
       </button>
     </div>
@@ -86,7 +88,7 @@ components is available at the linked web sites.</p>
 <script>
 
 function setScript(script) {
-	$("#theScript").text(script);
+	$("#theScript").text(script).focus();
 }
 
 function runScript() {
@@ -109,6 +111,11 @@ function runScript() {
 		resultDiv.text(result);
 		output.append(resultDiv);
 	}
+}
+
+function showHelp() {
+	var elementsWithTooltip = $("[title]");
+	elementsWithTooltip.tooltip("show").click(function(){elementsWithTooltip.tooltip("dispose");});
 }
 
 var libvoikko = Libvoikko({
